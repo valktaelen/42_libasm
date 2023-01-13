@@ -1,0 +1,3 @@
+[submodule "libasmTester"]
+	path = libasmTester
+	url = git@github.com:Tripouille/libasmTester.git
