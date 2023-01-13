@@ -6,9 +6,9 @@ SRCS_FILES	:=	\
 				ft_read.s	\
 				ft_strlen.s	\
 				ft_strcmp.s	\
-#				_test.s	\
-#				ft_strcpy.s	\
+				ft_strcpy.s	\
 #				ft_strdup.s	\
+#				_test.s	\
 
 SRCS		:=	$(addprefix $(DIR_SRCS)/, $(SRCS_FILES))
 OBJS		:=	$(addprefix $(DIR_OBJ)/, $(SRCS_FILES:.s=.o))
