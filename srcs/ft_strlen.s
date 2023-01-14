@@ -2,7 +2,7 @@ global _ft_strlen
 
 section .text
 
-; size_t	ft_strlen(const char *s);
+; size_t	ft_strlen(const char *rdi);
 
 _ft_strlen:
 	xor rax, rax

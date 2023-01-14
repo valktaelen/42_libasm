@@ -2,7 +2,7 @@ global _ft_strcpy
 
 section .text
 
-; char*	ft_strcpy(char * dst, const char * src);
+; char*	ft_strcpy(char * rdi, const char * rsi);
 
 _ft_strcpy:
 	xor rax, rax

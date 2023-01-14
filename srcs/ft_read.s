@@ -3,7 +3,7 @@ global _ft_read
 
 section .text
 
-; ssize_t	ft_read(int fildes, const void *buf, size_t nbyte);
+; ssize_t	ft_read(int rdi, const void *rsi, size_t rcx);
 _ft_read:
 	mov	rax, 0x2000003	; read
 	syscall				; call read

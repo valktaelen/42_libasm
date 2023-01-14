@@ -7,7 +7,7 @@ SRCS_FILES	:=	\
 				ft_strlen.s	\
 				ft_strcmp.s	\
 				ft_strcpy.s	\
-#				ft_strdup.s	\
+				ft_strdup.s	\
 #				_test.s	\
 
 SRCS		:=	$(addprefix $(DIR_SRCS)/, $(SRCS_FILES))

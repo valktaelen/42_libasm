@@ -3,7 +3,7 @@ global _ft_write
 
 section .text
 
-; ssize_t ft_write(int fildes, void *buf, size_t nbyte);
+; ssize_t ft_write(int rdi, void *rsi, size_t rcx);
 _ft_write:
 	mov	rax, 0x2000004	; write
 	syscall				; call write
