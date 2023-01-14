@@ -53,8 +53,8 @@ all:	$(NAME)
 
 bonus:	$(NAME_BONUS)
 
-test: $(NAME) $(OBJS_TEST)
-	gcc -Wall -Werror -Wextra $(DEBUG_TEST)  $(NAME) $(OBJS_TEST) -o test
+test: $(NAME_BONUS) $(OBJS_TEST)
+	gcc -Wall -Werror -Wextra $(DEBUG_TEST)  $(NAME_BONUS) $(OBJS_TEST) -o test
 
 $(DIR_OBJ):
 	mkdir -p $(DIR_OBJ)
