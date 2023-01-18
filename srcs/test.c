@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 ssize_t	ft_write(int fildes, const void *buf, size_t nbyte);
@@ -52,9 +53,16 @@ void test_read(int fildes, void *buf, size_t nbyte) {
 	test_read_std(fildes, buf, nbyte);
 	ft_write(2, "########################################################\n", 58);
 }
-
+typedef struct s_list
+{
+void *data;
+struct s_list *next;
+} t_list;
+void	ft_list_remove_if(t_list **rdi, void *rsi, int (*rdx)(), void (*rcx)(void*));
+int cmp(char *t1, char* t2) {return *t1 == *t2;}
+int		ft_atoi_base(char const *str, char const *base);
 int main() {
-	printf("######################################################## write\n");
+	/*printf("######################################################## write\n");
 
 	test_write(-1, "Test 1", 8);
 	test_write(1, "Test 2", 7);
@@ -83,6 +91,7 @@ int main() {
 	sprintf(buf, "%s", "Test 6");
 	test_read(0, buf, 4);
 
-	printf("%d\n", strcmp("Tripouille", "tripouille"));
+	printf("%d\n", strcmp("Tripouille", "tripouille"));*/
+	printf("%d\n", (ft_atoi_base("11", "01")));
 
 }
