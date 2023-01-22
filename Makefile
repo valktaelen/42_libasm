@@ -13,7 +13,7 @@ SRCS_FILES			:=	ft_write.s	\
 						ft_strcpy.s	\
 						ft_strdup.s
 SRCS_FILES_BONUS	:=	$(SRCS_FILES)				\
-						ft_list_struct.s			\
+						ft_list_struct_bonus.s		\
 						ft_list_size_bonus.s		\
 						ft_list_push_front_bonus.s	\
 						ft_list_remove_if_bonus.s	\
@@ -48,10 +48,10 @@ $(DIR_OBJ):
 $(NAME):	$(DIR_OBJ)	$(OBJS_BONUS)
 	ar rc $(NAME) $(OBJS_BONUS)
 
-%.o:	%.c	Makefile
+%.o:	%.c
 	gcc -Wall -Werror -Wextra $(DEBUG_TEST) -c $< -o $@
 
-$(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.s	Makefile
+$(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.s
 	$(ASM_C) $< -o $@
 
 clean:

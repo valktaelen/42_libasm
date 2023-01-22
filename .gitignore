@@ -1,5 +1,7 @@
 *.a
 *.o
+*.out
+*.dSYM
 _*
 .vscode/
 test

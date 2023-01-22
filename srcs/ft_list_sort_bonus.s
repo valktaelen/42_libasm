@@ -2,7 +2,8 @@ section	.text
 global	_ft_list_sort
 extern _t_list
 
-; void	ft_list_sort(t_list **begin_list,int (*cmp)());
+; void	ft_list_sort(t_list **begin_list, int (*cmp)());
+;								rdi				rsi
 
 _ft_list_sort:
 	cmp rdi, 0
@@ -36,13 +37,13 @@ iter:
 	jmp next
 
 sort:
-	pop rax			; next
-	pop rcx			; current
-	mov r11, [rcx]	; current->data (tmp)
-	mov [rcx], rdi	; current->data = next->data
-	mov [rax], r11	; next->data = current->data (tmp)
-	pop rax			; cmp
-	pop r11			; begin
+	pop rax				; next
+	pop rcx				; current
+	mov r11, [rcx]		; current->data (tmp)
+	mov [rcx], rdi		; current->data = next->data
+	mov [rax], r11		; next->data = current->data (tmp)
+	pop rax				; cmp
+	pop r11				; begin
 	mov rcx, [r11]
 	push r11
 	push rax
@@ -50,9 +51,9 @@ sort:
 	jmp iter
 
 next:
-	pop rax			; next
-	pop rcx			; current
-	push rax		; current = next
+	pop rax				; next
+	pop rcx				; current
+	push rax			; current = next
 	jmp iter
 
 end:

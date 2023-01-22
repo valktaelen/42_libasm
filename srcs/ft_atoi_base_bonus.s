@@ -2,37 +2,38 @@ section	.text
 global	_ft_atoi_base
 extern	_ft_strlen
 
-; int	ft_atoi_base(char const *rdi, char const *rsi);
-;								num				base
+; int		ft_atoi_base(char *str, char *base);
+;								num			base
 
+; Stack in prog
 ; TOP number, base, dimension, value, sign
 
 _ft_atoi_base:
-	cmp rdi, 0
+	cmp rdi, 0						; secure params
 	je return
 	cmp rsi, 0
 	je return
 	push rdi
-	push rsi			; TOP base, num
+	push rsi						; TOP base, num
 	mov rdi, rsi
 	xor rsi, rsi
-	call check_base		; check_base(base) -> dimension
+	call check_base					; check_base(base) -> dimension
 	cmp rax, 2
 	jl return_error
 	mov rcx, rax
 	pop rsi
 	pop rdi
-	mov rax, 1			; sign
+	mov rax, 1						; sign
 	push rax
-	xor rax, rax		; value
+	xor rax, rax					; value
 	mov rax, 0
 	push rax
 	push rcx
 	push rsi
-	push rdi			; TOP number, base, dimension, value, sign
+	push rdi						; TOP number, base, dimension, value, sign
 	jmp whitespace
 
-whitespace:
+whitespace:							; start iterate on whitespace
 	xor rsi, rsi
 	pop rdi
 	mov r15b, BYTE [rdi]
@@ -41,7 +42,7 @@ whitespace:
 	je end
 	cmp r15b, 32					; ' '
 	je whitespace_inc
-	cmp r15b, 9					; '\t'
+	cmp r15b, 9						; '\t'
 	je whitespace_inc
 	cmp r15b, 10					; '\n'
 	je whitespace_inc
@@ -59,7 +60,7 @@ whitespace_inc:
 	push rdi
 	jmp whitespace
 
-sign:
+sign:								; iterate on + and -
 	xor rsi, rsi
 	pop rdi
 	mov r15b, BYTE [rdi]
@@ -78,7 +79,7 @@ sign_inc:
 	push rdi
 	jmp sign
 
-change_sign:			; TOP number, base, dimension, value, sign
+change_sign:						; TOP number, base, dimension, value, sign
 	pop rdi
 	pop rsi
 	pop rdx
@@ -92,7 +93,7 @@ change_sign:			; TOP number, base, dimension, value, sign
 	push rdi
 	jmp sign_inc
 
-conv_iter:				; TOP number, base, dimension, value, sign
+conv_iter:							; TOP number, base, dimension, value, sign
 	xor rsi, rsi
 	pop rdi
 	mov r15b, BYTE [rdi]
@@ -119,7 +120,7 @@ conv_iter:				; TOP number, base, dimension, value, sign
 	push r11
 	jmp conv_iter
 
-end:					; TOP number, base, dimension, value, sign
+end:								; TOP number, base, dimension, value, sign
 	pop rax
 	pop rax
 	pop rax
@@ -137,7 +138,7 @@ return_error:
 return:
 	ret
 
-digit:			; rdi (base), r15 [r15b] (digit)
+digit:								; rdi (base), r15 [r15b] (digit)
 	xor rax, rax
 	xor rdx, rdx
 	jmp digit_iter
@@ -155,7 +156,7 @@ return_digit_error:
 	mov rax, -1
 	ret
 
-check_base:	; rdi base
+check_base:							; rdi base [check if the base is correct]
 	xor rax, rax
 	jmp check_base_iter
 
@@ -170,7 +171,7 @@ check_base_iter:
 	je return_base_error
 	cmp r15b, 32					; ' '
 	je return_base_error
-	cmp r15b, 9					; '\t'
+	cmp r15b, 9						; '\t'
 	je return_base_error
 	cmp r15b, 10					; '\n'
 	je return_base_error

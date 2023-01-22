@@ -7,7 +7,7 @@ extern _free
 ;								begin		ref		cpm(elem, ref)	free
 
 _ft_list_remove_if:
-	cmp rdi, 0
+	cmp rdi, 0			; secure params
 	je end
 	cmp rsi, 0
 	je end
@@ -20,7 +20,7 @@ _ft_list_remove_if:
 	push rdx			; save cmp
 	push rsi			; save ref
 	push rdi			; save begin
-	push rax			; push old struct
+	push rax			; push old struct (NULL)
 	mov rax, [rdi]		; rax = struct*
 	push rax			; push current struct
 	jmp iter			; iterate
@@ -65,6 +65,12 @@ remove:
 	push r13			; toDelete
 	mov r13, [r13 + 8]	; current = current->next
 	mov [r12 + 8], r13	; old->next = current
+	pop r15
+	pop r11
+	pop r14
+	push r12
+	push r13
+	push r15
 	jmp removeNode
 
 ;	Entry:
@@ -122,7 +128,10 @@ removeNode:
 	mov rdi, [rdi]		; toDelete.data
 	call r11			; free(toDelete.data)
 	pop rdi				; toDelete
-	;call _free			; free(rdi)				Why !!!! free data but not node, why not !!!
+	xor rcx, rcx
+	push rsp
+	call _free			; free(rdi)				Why !!!! free data but not node, why not !!!
+	pop rsp
 	jmp iter
 
 end:

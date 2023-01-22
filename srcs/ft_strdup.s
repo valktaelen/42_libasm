@@ -15,15 +15,16 @@ _ft_strdup:
 	push rdi			; push s1
 	mov rdi, rax		; param1 (rdi) = size to allocate
 	call _malloc		; call malloc
-	jc error_exit		; if error of allocation set errno and return
+	cmp rax, 0
+	je error_exit		; if error of allocation
 	mov rdi, rax		; param1 (rdi) = pointer allocate by malloc
 	pop rsi				; param2 (rsi) = s1
 	call _ft_strcpy		; copy s1 in new string
 	ret					; return new string
 
 error_exit:
-	mov rdi, rax		; rdi = error
-	call ___error		; rax = &errno
-	mov [rax], rdi		; errno = error
-	mov rax, 0			; return NULL
+	;mov rdi, rax		; rdi = error
+	;call ___error		; rax = &errno
+	;mov [rax], rdi		; errno = error
+	;mov rax, 0			; return NULL
 	ret
