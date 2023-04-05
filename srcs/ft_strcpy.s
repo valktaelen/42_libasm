@@ -1,9 +1,13 @@
 global _ft_strcpy
+global ft_strcpy
 
 section .text
 
 ; char*	ft_stpcpy(char * dst, const char * src);
 ;						rdi				rsi
+
+ft_strcpy:
+	jmp _ft_strcpy
 
 _ft_strcpy:
 	xor rax, rax			; register rax = 0 (index)

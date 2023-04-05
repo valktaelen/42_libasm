@@ -29,12 +29,12 @@ DEBUG_TEST	:=	-fsanitize=address -g3
 
 UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
-		ASM_FORMAT	:=	elf
+		ASM_FORMAT	:=	elf64 -DSYS_WRITE=0x01 -DSYS_READ=0x00 -DERRNO=__errno_location -DMALLOC=malloc -DFREE=free
 	endif
 	ifeq ($(UNAME_S),Darwin)
-		ASM_FORMAT	:=	macho64
+		ASM_FORMAT	:=	macho64 -DSYS_WRITE=0x2000004  -DSYS_READ=0x2000003 -DERRNO=___error -DMALLOC=_malloc -DFREE=_free
 	endif
-ASM_C		:=	nasm -f $(ASM_FORMAT) $(DEBUG)
+ASM_C		:=	nasm -i $(DIR_SRCS) -f $(ASM_FORMAT) $(DEBUG)
 
 # Rules
 
@@ -45,13 +45,13 @@ bonus:	$(NAME)
 $(DIR_OBJ):
 	mkdir -p $(DIR_OBJ)
 
-$(NAME):	$(DIR_OBJ)	$(OBJS_BONUS)
+$(NAME):	$(DIR_OBJ) $(OBJS_BONUS)
 	ar rc $(NAME) $(OBJS_BONUS)
 
-%.o:	%.c
+%.o:	%.c	
 	gcc -Wall -Werror -Wextra $(DEBUG_TEST) -c $< -o $@
 
-$(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.s
+$(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.s Makefile
 	$(ASM_C) $< -o $@
 
 clean:
@@ -59,3 +59,5 @@ clean:
 
 fclean:	clean
 	rm -rf $(NAME) test
+
+re: fclean bonus

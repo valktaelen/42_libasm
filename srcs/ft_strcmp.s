@@ -1,9 +1,13 @@
 global _ft_strcmp
+global ft_strcmp
 
 section .text
 
 ; int	ft_strcmp(const char *s1, const char *s2);
 ;							rdi				rsi
+
+ft_strcmp:
+	jmp _ft_strcmp
 
 _ft_strcmp:
 	xor rax, rax			; register rax = 0
