@@ -6,6 +6,7 @@ DIR_SRCS	:=	srcs
 # Mandatory
 
 NAME				:=	libasm.a
+NAME_BONUS			:=	libasm_bonus.a
 SRCS_FILES			:=	ft_write.s	\
 						ft_read.s	\
 						ft_strlen.s	\
@@ -19,6 +20,8 @@ SRCS_FILES_BONUS	:=	$(SRCS_FILES)				\
 						ft_list_remove_if_bonus.s	\
 						ft_list_sort_bonus.s		\
 						ft_atoi_base_bonus.s
+SRCS		:=	$(addprefix $(DIR_SRCS)/, $(SRCS_FILES))
+OBJS		:=	$(addprefix $(DIR_OBJ)/, $(SRCS_FILES:.s=.o))
 SRCS_BONUS		:=	$(addprefix $(DIR_SRCS)/, $(SRCS_FILES_BONUS))
 OBJS_BONUS		:=	$(addprefix $(DIR_OBJ)/, $(SRCS_FILES_BONUS:.s=.o))
 
@@ -40,24 +43,28 @@ ASM_C		:=	nasm -i $(DIR_SRCS) -f $(ASM_FORMAT) $(DEBUG)
 
 all:	$(NAME)
 
-bonus:	$(NAME)
+bonus:	$(NAME_BONUS)
 
 $(DIR_OBJ):
 	mkdir -p $(DIR_OBJ)
 
-$(NAME):	$(DIR_OBJ) $(OBJS_BONUS)
-	ar rc $(NAME) $(OBJS_BONUS)
+
+$(NAME_BONUS): $(DIR_OBJ) $(OBJS_BONUS)
+	ar rc $(NAME_BONUS) $(OBJS_BONUS)
+
+$(NAME):	$(DIR_OBJ)  $(OBJS)
+	ar rc $(NAME) $(OBJS)
 
 %.o:	%.c	
 	gcc -Wall -Werror -Wextra $(DEBUG_TEST) -c $< -o $@
 
-$(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.s Makefile
+$(DIR_OBJ)/%.o:	$(DIR_SRCS)/%.s
 	$(ASM_C) $< -o $@
 
 clean:
 	rm -rf $(DIR_OBJ) $(OBJS_TEST)
 
 fclean:	clean
-	rm -rf $(NAME) test
+	rm -rf $(NAME) $(NAME_BONUS) test
 
-re: fclean bonus
+re: fclean all

@@ -1,3 +1,4 @@
+%include "ft_list_struct_bonus.s"
 section	.text
 global	ft_list_remove_if
 extern	FREE
@@ -16,9 +17,10 @@ ft_list_remove_if:
 	cmp		rcx, 0
 	jz		return
 	jmp		compare_start
+
 free_elt:
 	mov		r8, [rdi]
-	mov		rbp, [r8 + 8]
+	mov		rbp, [r8 + next]
 	push	rsi
 	push	rdx
 	push	rcx
@@ -40,17 +42,21 @@ free_elt:
 	jnz		set_previous_next
 	mov		r12, rbp
 	jmp		compare_start
+
 set_previous_next:
-	mov		[rbx + 8], rbp
+	mov		[rbx + next], rbp
 	jmp		compare_start
+
 compare_null:
 	xor		rdi, rsi
 	mov		rax, rdi
 	jmp		compare_end
+
 move_next:
 	mov		rbx, [rdi]
-	mov		r8,	[rbx + 8]
+	mov		r8,	[rbx + next]
 	mov		[rdi], r8
+
 compare_start:
 	cmp		QWORD [rdi], 0
 	jz		return
@@ -63,6 +69,7 @@ compare_start:
 	cmp		rdi, 0
 	jz		compare_null
 	call	rdx
+
 compare_end:
 	pop		rcx
 	pop		rdx
@@ -71,6 +78,7 @@ compare_end:
 	cmp		rax, 0
 	jz		free_elt
 	jmp		move_next
+
 return:
 	mov		[rdi], r12
 	pop		r12

@@ -1,3 +1,4 @@
+%include "ft_list_struct_bonus.s"
 section	.text
 global	_ft_list_size
 global	ft_list_size
@@ -17,7 +18,7 @@ iter:
 	cmp rdi, 0				; if (pointer == NULL)
 	je return				;	return size
 	inc rax					; ++size
-	mov rdi, [rdi + 8]		; lst = lst->next
+	mov rdi, [rdi + next]		; lst = lst->next
 	jmp iter				; do next
 
 return:
