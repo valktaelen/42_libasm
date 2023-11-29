@@ -1,9 +1,13 @@
 global _ft_strlen
+global ft_strlen
 
 section .text
 
 ; size_t	ft_strlen(const char *s);
 ;							rdi
+
+ft_strlen:
+	jmp _ft_strlen
 
 _ft_strlen:
 	xor rax, rax				; register rax = 0 (index)
